@@ -1,0 +1,150 @@
+{% extends 'base.html' %}{% block title %}Ticket {{ticket.ticket_ref}}{% endblock %}
+{% block body %}
+<div class="page-grid">
+  {% if role == 'user' %}{% include '_sidebar_user.html' %}
+  {% elif role == 'admin' %}{% include '_sidebar_admin.html' %}
+  {% else %}{% include '_sidebar_engineer.html' %}{% endif %}
+  <div class="main-content">
+    {% include '_alerts.html' %}
+    <div class="page-header">
+      <div>
+        <div style="display:flex;align-items:center;gap:.75rem;flex-wrap:wrap">
+          <span class="ticket-ref-tag">{{ticket.ticket_ref}}</span>
+          <span class="badge badge-{{ticket.priority|lower}}">{{ticket.priority}}</span>
+          <span class="badge badge-{{ticket.status|lower|replace(' ','')}}">{{ticket.status}}</span>
+        </div>
+        <h1 style="margin-top:.5rem">{{ticket.title}}</h1>
+      </div>
+      {% if role=='user' %}<a href="/user/tickets" class="btn btn-ghost btn-sm"><i class="fa-solid fa-arrow-left"></i> Back</a>
+      {% elif role=='admin' %}<a href="/admin/tickets" class="btn btn-ghost btn-sm"><i class="fa-solid fa-arrow-left"></i> Back</a>
+      {% else %}<a href="/engineer/dashboard" class="btn btn-ghost btn-sm"><i class="fa-solid fa-arrow-left"></i> Back</a>{% endif %}
+    </div>
+    <div class="page-body">
+      <div style="display:grid;grid-template-columns:1fr 320px;gap:1.5rem;align-items:start">
+        <div>
+          <div class="card mb-3">
+            <h3 style="font-size:.85rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:1rem">Issue Description</h3>
+            <p style="color:var(--text);line-height:1.8">{{ticket.description}}</p>
+            {% if ticket.fix_summary %}
+            <div style="margin-top:1rem;padding:1rem;background:rgba(0,230,118,.07);border:1px solid rgba(0,230,118,.2);border-radius:var(--radius-md)">
+              <div style="font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--success);margin-bottom:.4rem"><i class="fa-solid fa-circle-check"></i> Fix Summary</div>
+              <p style="color:var(--text);font-size:.875rem">{{ticket.fix_summary}}</p>
+            </div>
+            {% endif %}
+          </div>
+          {% if ticket.rustdesk_id and role in ('engineer','admin') %}
+          <div class="rustdesk-box mb-3">
+            <div class="rustdesk-box__header">
+              <i class="fa-solid fa-desktop rustdesk-box__icon"></i>
+              <div class="rustdesk-box__title">Remote Access Details</div>
+            </div>
+            <div style="font-size:.75rem;color:var(--text-muted);letter-spacing:.07em;text-transform:uppercase;margin-bottom:.3rem">RustDesk ID</div>
+            <div class="rustdesk-box__id">{{ticket.rustdesk_id}}</div>
+            {% if ticket.rustdesk_password %}
+            <div style="margin-top:.75rem;font-size:.875rem;color:var(--text-muted)">
+              <i class="fa-solid fa-key" style="color:var(--warning)"></i> Password:
+              <code style="background:var(--surface-3);padding:.1rem .5rem;border-radius:4px;color:#fff">{{ticket.rustdesk_password}}</code>
+            </div>
+            {% endif %}
+            <div style="margin-top:.75rem;font-size:.8rem;color:var(--text-muted)">
+              <i class="fa-solid fa-circle-info"></i> Open RustDesk on your machine and connect using the ID and password above.
+            </div>
+          </div>
+          {% endif %}
+          {% if role == 'engineer' %}
+          <div class="card mb-3">
+            <h3 style="font-size:.95rem;color:#fff;margin-bottom:1.25rem">Update Ticket Status</h3>
+            <form method="POST">
+              <input type="hidden" name="action" value="status">
+              <div class="form-group">
+                <label class="form-label">New Status</label>
+                <select name="status" class="form-control">
+                  {% for s in ['In Progress','Waiting for User','Resolved'] %}
+                  <option value="{{s}}" {% if ticket.status==s %}selected{% endif %}>{{s}}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Fix Summary</label>
+                <textarea name="fix_summary" class="form-control" rows="3" placeholder="Describe the fix applied...">{{ticket.fix_summary or ''}}</textarea>
+              </div>
+              <button type="submit" class="btn btn-primary btn-sm"><i class="fa-solid fa-floppy-disk"></i> Update Status</button>
+            </form>
+            <div class="glow-line"></div>
+            <h3 style="font-size:.95rem;color:#fff;margin-bottom:1rem">Send Message to User</h3>
+            <form method="POST">
+              <input type="hidden" name="action" value="message">
+              <div class="form-group">
+                <textarea name="message" class="form-control" rows="2" placeholder="Type a message for the user..." required></textarea>
+              </div>
+              <button type="submit" class="btn btn-outline btn-sm"><i class="fa-solid fa-paper-plane"></i> Send</button>
+            </form>
+          </div>
+          {% endif %}
+          {% if role == 'user' %}
+          <div class="card mb-3">
+            <h3 style="font-size:.95rem;color:#fff;margin-bottom:1rem">Add a Reply</h3>
+            <form method="POST" action="/user/ticket/{{ticket.id}}/reply">
+              <div class="form-group">
+                <textarea name="message" class="form-control" rows="3" placeholder="Add more details or a follow-up message..." required></textarea>
+              </div>
+              <button type="submit" class="btn btn-outline btn-sm"><i class="fa-solid fa-reply"></i> Send Reply</button>
+            </form>
+          </div>
+          {% endif %}
+          <div class="card">
+            <h3 style="font-size:.95rem;color:#fff;margin-bottom:1.25rem"><i class="fa-solid fa-timeline" style="color:var(--accent)"></i> Activity Timeline</h3>
+            {% if updates %}
+            <div class="timeline">
+              {% for u in updates %}
+              <div class="timeline-item">
+                <div class="timeline-dot {{u.author_role}}">{{u.author_name[0].upper() if u.author_name else '?'}}</div>
+                <div class="timeline-content">
+                  <div class="timeline-meta">
+                    <div>
+                      <span class="timeline-author">{{u.author_name or 'Unknown'}}</span>
+                      <span class="timeline-role"> · {{u.author_role|capitalize}}</span>
+                    </div>
+                    <span class="timeline-time">{{u.created_at.strftime('%d %b, %H:%M') if u.created_at else ''}}</span>
+                  </div>
+                  <div class="timeline-msg">{{u.message}}</div>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+            {% else %}
+            <div style="color:var(--text-muted);font-size:.875rem">No activity yet.</div>
+            {% endif %}
+          </div>
+        </div>
+        <div>
+          <div class="card mb-3">
+            <h3 style="font-size:.85rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:1rem">Ticket Info</h3>
+            {% for label, val in [('Category',ticket.cat_name or '—'),('Device',ticket.device_type or '—'),
+              ('OS',ticket.operating_system or '—'),('Preferred Time',ticket.preferred_time or '—'),
+              ('Created',ticket.created_at.strftime('%d %b %Y, %H:%M') if ticket.created_at else '—'),
+              ('Updated',ticket.updated_at.strftime('%d %b %Y, %H:%M') if ticket.updated_at else '—')] %}
+            <div style="padding:.5rem 0;border-bottom:1px solid var(--border)">
+              <div style="font-size:.72rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--text-muted);margin-bottom:.2rem">{{label}}</div>
+              <div style="font-size:.875rem;color:#fff">{{val}}</div>
+            </div>
+            {% endfor %}
+          </div>
+          {% if ticket.eng_name %}
+          <div class="card" style="border-color:rgba(0,230,118,.2)">
+            <h3 style="font-size:.85rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:1rem">Assigned Engineer</h3>
+            <div style="display:flex;align-items:center;gap:.75rem">
+              <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--success),#00b0ff);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:700;color:#fff">{{ticket.eng_name[0]}}</div>
+              <div>
+                <div style="font-size:.95rem;font-weight:600;color:#fff">{{ticket.eng_name}}</div>
+                <div style="font-size:.78rem;color:var(--text-muted)">{{ticket.eng_spec or 'Support Engineer'}}</div>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

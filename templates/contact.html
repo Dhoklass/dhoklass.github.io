@@ -1,0 +1,51 @@
+{% extends 'base.html' %}{% block title %}Contact{% endblock %}
+{% block body %}
+<nav class="navbar">
+  <a href="/" class="navbar__logo"><svg width="28" height="28" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="rgba(0,212,255,0.15)"/><path d="M7 16h4l2-6 3 12 2-9 2 3h5" stroke="#00d4ff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Glitch<span class="brand-accent">Fix</span></a>
+  <ul class="navbar__links"><li><a href="/">Home</a></li><li><a href="/about">About</a></li><li><a href="/faq">FAQ</a></li></ul>
+  <div class="navbar__cta"><a href="/login" class="btn btn-ghost btn-sm">Login</a><a href="/register" class="btn btn-primary btn-sm">Get Started</a></div>
+</nav>
+<section style="padding:5rem 0 2rem;text-align:center;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(0,212,255,.05) 0%,transparent 70%)">
+  <div class="container--narrow">
+    <div class="section__label">Get in Touch</div>
+    <h1 style="font-family:var(--font-display);font-size:clamp(2rem,5vw,3rem);font-weight:700;color:#fff;margin-bottom:.75rem">Contact <span class="brand-accent">Us</span></h1>
+    <p style="color:var(--text-muted)">Have a question or need help? We're here for you.</p>
+  </div>
+</section>
+<section class="section">
+  <div class="container" style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;max-width:960px;margin-inline:auto;align-items:start">
+    <div>
+      <div class="card" style="margin-bottom:1rem">
+        <h3 style="font-size:.95rem;color:#fff;margin-bottom:1.25rem">Send us a Message</h3>
+        <div class="form-group"><label class="form-label">Your Name</label><input type="text" class="form-control" placeholder="Amit Kulkarni"></div>
+        <div class="form-group"><label class="form-label">Email Address</label><input type="email" class="form-control" placeholder="amit@example.com"></div>
+        <div class="form-group"><label class="form-label">Subject</label><input type="text" class="form-control" placeholder="PC issue, Ticket query, etc."></div>
+        <div class="form-group"><label class="form-label">Message</label><textarea class="form-control" rows="4" placeholder="Describe your query..."></textarea></div>
+        <button class="btn btn-primary btn-sm" onclick="this.innerHTML='<i class=&quot;fa-solid fa-check&quot;></i> Sent!';this.disabled=true"><i class="fa-solid fa-paper-plane"></i> Send Message</button>
+      </div>
+    </div>
+    <div>
+      {% for info in [
+        ('fa-envelope','Email Support','support@glitchfix.com','We reply within 4 hours on working days.'),
+        ('fa-clock','Working Hours','Mon – Saturday','9:00 AM to 9:00 PM IST'),
+        ('fa-map-marker-alt','Location','Pune, Maharashtra','India — Serving users nationwide'),
+      ] %}
+      <div class="card mb-3" style="display:flex;gap:1rem;align-items:flex-start">
+        <div style="width:44px;height:44px;border-radius:var(--radius-md);background:var(--accent-glow);border:1px solid var(--border-accent);display:flex;align-items:center;justify-content:center;color:var(--accent);flex-shrink:0"><i class="fa-solid {{info[0]}}"></i></div>
+        <div>
+          <div style="font-weight:600;color:#fff;margin-bottom:.2rem">{{info[1]}}</div>
+          <div style="color:var(--text-muted);font-size:.875rem">{{info[2]}}</div>
+          <div style="color:var(--text-faint);font-size:.78rem">{{info[3]}}</div>
+        </div>
+      </div>
+      {% endfor %}
+      <div class="card" style="background:linear-gradient(135deg,rgba(0,212,255,.07),rgba(124,77,255,.07));border-color:var(--border-accent)">
+        <div style="font-family:var(--font-display);font-size:1.1rem;font-weight:700;color:#fff;margin-bottom:.5rem">Need Immediate Help?</div>
+        <p style="color:var(--text-muted);font-size:.875rem;margin-bottom:1rem">For urgent PC issues, raise a ticket with Critical priority and our team will prioritize it.</p>
+        <a href="/register" class="btn btn-primary btn-sm"><i class="fa-solid fa-ticket"></i> Raise a Ticket</a>
+      </div>
+    </div>
+  </div>
+</section>
+<footer class="footer"><div class="container"><div class="footer__bottom"><div class="footer__copy">© 2025 GlitchFix. All rights reserved.</div><a href="/" style="color:var(--text-muted);font-size:.875rem">← Back to Home</a></div></div></footer>
+{% endblock %}

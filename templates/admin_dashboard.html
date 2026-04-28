@@ -1,0 +1,45 @@
+{% extends 'base.html' %}{% block title %}Admin Dashboard{% endblock %}
+{% block body %}
+<div class="page-grid">
+  {% include '_sidebar_admin.html' %}
+  <div class="main-content">
+    {% include '_alerts.html' %}
+    <div class="page-header">
+      <div><h1>Admin Dashboard</h1><p>Full platform overview and controls.</p></div>
+    </div>
+    <div class="page-body">
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-icon cyan"><i class="fa-solid fa-ticket"></i></div><div><div class="stat-value">{{total}}</div><div class="stat-label">Total Tickets</div></div></div>
+        <div class="stat-card"><div class="stat-icon orange"><i class="fa-solid fa-folder-open"></i></div><div><div class="stat-value">{{open_t}}</div><div class="stat-label">Open</div></div></div>
+        <div class="stat-card"><div class="stat-icon purple"><i class="fa-solid fa-spinner"></i></div><div><div class="stat-value">{{in_prog}}</div><div class="stat-label">In Progress</div></div></div>
+        <div class="stat-card"><div class="stat-icon green"><i class="fa-solid fa-circle-check"></i></div><div><div class="stat-value">{{resolved}}</div><div class="stat-label">Resolved</div></div></div>
+        <div class="stat-card"><div class="stat-icon cyan"><i class="fa-solid fa-users"></i></div><div><div class="stat-value">{{user_count}}</div><div class="stat-label">Total Users</div></div></div>
+        <div class="stat-card"><div class="stat-icon green"><i class="fa-solid fa-user-gear"></i></div><div><div class="stat-value">{{eng_count}}</div><div class="stat-label">Engineers</div></div></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+        <h3 style="color:#fff">Recent Tickets</h3>
+        <a href="/admin/tickets" class="btn btn-outline btn-sm">View All →</a>
+      </div>
+      <div class="table-wrap">
+        <table class="table">
+          <thead><tr><th>Ref</th><th>Title</th><th>User</th><th>Priority</th><th>Status</th><th>Engineer</th><th>Updated</th><th></th></tr></thead>
+          <tbody>
+          {% for t in recent %}
+          <tr>
+            <td><span class="table-ticket-ref">{{t.ticket_ref}}</span></td>
+            <td style="max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{t.title}}</td>
+            <td style="color:var(--text-muted);font-size:.82rem">{{t.user_name}}</td>
+            <td><span class="badge badge-{{t.priority|lower}}">{{t.priority}}</span></td>
+            <td><span class="badge badge-{{t.status|lower|replace(' ','')}}">{{t.status}}</span></td>
+            <td style="color:var(--text-muted);font-size:.82rem">{{t.eng_name or '—'}}</td>
+            <td style="color:var(--text-muted);font-size:.82rem">{{t.updated_at.strftime('%d %b') if t.updated_at else '—'}}</td>
+            <td><a href="/admin/ticket/{{t.id}}" class="btn btn-ghost btn-sm">Manage</a></td>
+          </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'base.html' %}{% block title %}Engineer Dashboard{% endblock %}
+{% block body %}
+<div class="page-grid">
+  {% include '_sidebar_engineer.html' %}
+  <div class="main-content">
+    {% include '_alerts.html' %}
+    <div class="page-header">
+      <div><h1>Engineer Dashboard</h1><p>Welcome back, {{ session.user_name.split()[0] }}. Here are your assigned tickets.</p></div>
+    </div>
+    <div class="page-body">
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-icon cyan"><i class="fa-solid fa-ticket"></i></div><div><div class="stat-value">{{total}}</div><div class="stat-label">Total Assigned</div></div></div>
+        <div class="stat-card"><div class="stat-icon orange"><i class="fa-solid fa-bell"></i></div><div><div class="stat-value">{{new_t}}</div><div class="stat-label">New Assignments</div></div></div>
+        <div class="stat-card"><div class="stat-icon purple"><i class="fa-solid fa-spinner"></i></div><div><div class="stat-value">{{in_prog}}</div><div class="stat-label">In Progress</div></div></div>
+        <div class="stat-card"><div class="stat-icon green"><i class="fa-solid fa-circle-check"></i></div><div><div class="stat-value">{{resolved}}</div><div class="stat-label">Resolved</div></div></div>
+      </div>
+      <h3 style="color:#fff;margin-bottom:1rem">Your Tickets</h3>
+      {% if tickets %}
+      <div style="display:flex;flex-direction:column;gap:1rem">
+        {% for t in tickets %}
+        <div class="card" style="{% if t.status=='Assigned' %}border-color:rgba(0,212,255,.3);{% endif %}">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1rem">
+            <div>
+              <div style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;margin-bottom:.4rem">
+                <span class="table-ticket-ref">{{t.ticket_ref}}</span>
+                <span class="badge badge-{{t.priority|lower}}">{{t.priority}}</span>
+                <span class="badge badge-{{t.status|lower|replace(' ','')}}">{{t.status}}</span>
+                {% if t.status=='Assigned' %}<span class="badge" style="background:rgba(0,212,255,.15);color:var(--accent)"><i class="fa-solid fa-star"></i> New</span>{% endif %}
+              </div>
+              <div style="font-size:1rem;font-weight:600;color:#fff;margin-bottom:.25rem">{{t.title}}</div>
+              <div style="font-size:.82rem;color:var(--text-muted)">
+                <i class="fa-solid fa-user" style="font-size:.7rem"></i> {{t.user_name}}
+                &nbsp;·&nbsp; <i class="fa-solid fa-tag" style="font-size:.7rem"></i> {{t.cat_name or 'Uncategorized'}}
+                &nbsp;·&nbsp; <i class="fa-solid fa-calendar" style="font-size:.7rem"></i> {{t.created_at.strftime('%d %b %Y') if t.created_at else ''}}
+              </div>
+            </div>
+            <a href="/engineer/ticket/{{t.id}}" class="btn btn-primary btn-sm"><i class="fa-solid fa-wrench"></i> Work on Ticket</a>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="empty-state">
+        <i class="fa-solid fa-inbox"></i>
+        <h3>No tickets assigned yet</h3>
+        <p>The admin will assign tickets to you. Check back soon.</p>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}{% block title %}All Users{% endblock %}
+{% block body %}
+<div class="page-grid">
+  {% include '_sidebar_admin.html' %}
+  <div class="main-content">
+    {% include '_alerts.html' %}
+    <div class="page-header">
+      <div><h1>All Users</h1><p>View all registered GlitchFix users.</p></div>
+    </div>
+    <div class="page-body">
+      <div class="table-wrap">
+        <table class="table">
+          <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Tickets Raised</th><th>Joined</th></tr></thead>
+          <tbody>
+          {% for u in users %}
+          <tr>
+            <td>
+              <div style="display:flex;align-items:center;gap:.75rem">
+                <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--purple));display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:700;color:#fff;flex-shrink:0">{{u.name[0]}}</div>
+                <span style="font-weight:600;color:#fff">{{u.name}}</span>
+              </div>
+            </td>
+            <td style="color:var(--text-muted);font-size:.85rem">{{u.email}}</td>
+            <td style="color:var(--text-muted);font-size:.85rem">{{u.phone or '—'}}</td>
+            <td><span class="badge badge-open">{{u.ticket_count}}</span></td>
+            <td style="color:var(--text-muted);font-size:.82rem">{{u.created_at.strftime('%d %b %Y') if u.created_at else '—'}}</td>
+          </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

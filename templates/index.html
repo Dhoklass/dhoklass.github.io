@@ -1,1 +1,174 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock %}
+{% block body %}
+<nav class="navbar">
+  <a href="/" class="navbar__logo">
+    <svg width="28" height="28" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="rgba(0,212,255,0.15)"/><path d="M7 16h4l2-6 3 12 2-9 2 3h5" stroke="#00d4ff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Glitch<span class="brand-accent">Fix</span>
+  </a>
+  <ul class="navbar__links">
+    <li><a href="/about">About</a></li><li><a href="/faq">FAQ</a></li><li><a href="/contact">Contact</a></li>
+  </ul>
+  <div class="navbar__cta">
+    <a href="/login" class="btn btn-ghost btn-sm">Login</a>
+    <a href="/register" class="btn btn-primary btn-sm">Get Started</a>
+  </div>
+</nav>
 
+<section class="hero">
+  <div class="hero__eyebrow"><i class="fa-solid fa-bolt"></i> Remote PC Support — Fast &amp; Secure</div>
+  <h1 class="hero__title">Your Online PC<br><span class="brand-accent">Problem Solver</span></h1>
+  <p class="hero__subtitle">Get certified engineers to fix your computer issues remotely — no shop visits, no waiting.</p>
+  <div class="hero__ctas">
+    <a href="/register" class="btn btn-primary btn-lg"><i class="fa-solid fa-rocket"></i> Get Started Free</a>
+    <a href="/faq" class="btn btn-ghost btn-lg"><i class="fa-solid fa-circle-question"></i> How it Works</a>
+  </div>
+  <div class="hero__grid container">
+    {% for stat in [('2,400+','Issues Resolved'),('98%','Satisfaction Rate'),('&lt;2 hrs','Avg Fix Time'),('24/7','Support Available')] %}
+    <div class="card" style="text-align:center">
+      <div style="font-family:var(--font-display);font-size:2rem;font-weight:700;color:var(--accent)">{{stat[0]}}</div>
+      <div style="font-size:.8rem;color:var(--text-muted);margin-top:.3rem">{{stat[1]}}</div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="section" style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+  <div class="container">
+    <div class="section__label">Process</div>
+    <h2 class="section__title">How <span class="brand-accent">GlitchFix</span> Works</h2>
+    <p class="section__desc">From ticket creation to resolution in a few simple steps.</p>
+    <div class="steps">
+      {% for s in [('01','fa-user-plus','Register &amp; Login','Create a free account in under a minute.'),
+        ('02','fa-ticket','Raise a Ticket','Describe your PC issue and share your RustDesk ID.'),
+        ('03','fa-user-gear','Engineer Assigned','Admin reviews and assigns a certified engineer.'),
+        ('04','fa-desktop','Remote Session','Engineer connects to your PC via RustDesk.'),
+        ('05','fa-circle-check','Issue Resolved','Ticket marked resolved. You get notified instantly.')] %}
+      <div class="step">
+        <div class="step__num">{{s[0]}}</div>
+        <div class="step__icon"><i class="fa-solid {{s[1]}}"></i></div>
+        <div class="step__title">{{s[2]}}</div>
+        <div class="step__desc">{{s[3]}}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section__label">Why GlitchFix</div>
+    <h2 class="section__title">Everything You Need for <span class="brand-accent">PC Support</span></h2>
+    <div class="features-grid">
+      {% for f in [
+        ('fa-bolt','Fast Response','Most tickets are assigned within 30 minutes of submission.'),
+        ('fa-shield-halved','Secure Remote Access','All sessions run over RustDesk end-to-end encryption.'),
+        ('fa-ticket','Ticket Tracking','Track every update from your personal dashboard in real time.'),
+        ('fa-user-gear','Certified Engineers','Vetted specialists in Windows, drivers, malware, and networking.'),
+        ('fa-comments','Live Updates','Direct messages from your assigned engineer on your ticket.'),
+        ('fa-clock-rotate-left','Full History','Every action, update, and message is permanently logged.'),
+      ] %}
+      <div class="feature-card">
+        <div class="feature-card__icon"><i class="fa-solid {{f[0]}}"></i></div>
+        <div class="feature-card__title">{{f[1]}}</div>
+        <div class="feature-card__desc">{{f[2]}}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+  <div class="container" style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;max-width:960px;margin-inline:auto">
+    <div>
+      <div class="section__label">Remote Support</div>
+      <h2 class="section__title">Powered by <span class="brand-accent">RustDesk</span></h2>
+      <p style="color:var(--text-muted);margin-top:1rem;line-height:1.8">We use the open-source RustDesk client for all remote sessions. Free, secure, no special setup needed.</p>
+      <ul style="list-style:none;margin-top:1.5rem;display:flex;flex-direction:column;gap:.75rem">
+        {% for item in ['Install RustDesk (free) on your PC','Note your RustDesk ID and set a temporary password',
+          'Add those details to your support ticket','Engineer connects remotely and fixes the issue',
+          'Change your RustDesk password after the session'] %}
+        <li style="display:flex;align-items:center;gap:.75rem;font-size:.9rem;color:var(--text-muted)">
+          <i class="fa-solid fa-circle-check" style="color:var(--success)"></i> {{item}}
+        </li>
+        {% endfor %}
+      </ul>
+      <a href="https://rustdesk.com" target="_blank" rel="noopener noreferrer" class="btn btn-outline mt-3">
+        <i class="fa-solid fa-arrow-up-right-from-square"></i> Download RustDesk
+      </a>
+    </div>
+    <div class="rustdesk-box">
+      <div class="rustdesk-box__header">
+        <i class="fa-solid fa-desktop rustdesk-box__icon"></i>
+        <div class="rustdesk-box__title">Remote Session</div>
+      </div>
+      <div style="font-size:.75rem;color:var(--text-muted);margin-bottom:.4rem;letter-spacing:.07em;text-transform:uppercase">Your RustDesk ID</div>
+      <div class="rustdesk-box__id">123 456 789</div>
+      <div style="font-size:.8rem;color:var(--text-muted);margin-top:.75rem"><i class="fa-solid fa-lock" style="color:var(--success)"></i> End-to-end encrypted &nbsp;·&nbsp; Disconnect anytime</div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section__label">What Users Say</div>
+    <h2 class="section__title">Trusted by <span class="brand-accent">Thousands</span></h2>
+    <div class="testimonials-grid">
+      {% set testimonials = [
+        ("My PC was crawling with malware. Arjun connected remotely and cleaned everything in under an hour. Brilliant!", "Amit K.", "Pune, Maharashtra"),
+        ("WiFi kept dropping for months. The engineer found the driver issue in minutes. GlitchFix is a lifesaver.", "Sneha P.", "Mumbai, Maharashtra"),
+        ("BSOD every morning ruined my work. The team resolved the memory conflict remotely. Super professional.", "Vijay T.", "Bangalore, Karnataka"),
+        ("Could not install software for a week. GlitchFix engineer fixed it in 20 minutes. Very impressed!", "Kavya N.", "Chennai, Tamil Nadu"),
+      ] %}
+      {% for t in testimonials %}
+      <div class="testimonial">
+        <div style="color:var(--warning);margin-bottom:.75rem">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <div class="testimonial__text">"{{t[0]}}"</div>
+        <div class="testimonial__author">
+          <div class="testimonial__avatar">{{t[1][0]}}</div>
+          <div><div class="testimonial__name">{{t[1]}}</div><div class="testimonial__role">{{t[2]}}</div></div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section style="padding:4rem 0;background:linear-gradient(135deg,rgba(0,212,255,.05),rgba(124,77,255,.05));border-top:1px solid var(--border)">
+  <div class="container text-center">
+    <h2 style="font-family:var(--font-display);font-size:clamp(1.8rem,4vw,2.8rem);color:#fff;margin-bottom:1rem">Got a PC problem? <span class="brand-accent">We'll fix it.</span></h2>
+    <p style="color:var(--text-muted);margin-bottom:2rem">Join thousands of users who fixed their PC issues remotely with GlitchFix.</p>
+    <a href="/register" class="btn btn-primary btn-lg"><i class="fa-solid fa-arrow-right"></i> Create Free Account</a>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div>
+        <div class="footer__brand-name">Glitch<span class="brand-accent">Fix</span></div>
+        <p class="footer__desc">Your trusted online PC problem solver. Fast, secure, and professional remote support.</p>
+      </div>
+      <div>
+        <div class="footer__col-title">Platform</div>
+        <ul class="footer__links"><li><a href="/login">Login</a></li><li><a href="/register">Register</a></li><li><a href="/faq">FAQ</a></li></ul>
+      </div>
+      <div>
+        <div class="footer__col-title">Company</div>
+        <ul class="footer__links"><li><a href="/about">About Us</a></li><li><a href="/contact">Contact</a></li></ul>
+      </div>
+      <div>
+        <div class="footer__col-title">Support</div>
+        <ul class="footer__links">
+          <li><a href="mailto:support@glitchfix.com">support@glitchfix.com</a></li>
+          <li><span style="color:var(--text-muted)">Mon–Sat, 9AM–9PM IST</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <div class="footer__copy">© 2025 GlitchFix. All rights reserved.</div>
+      <div style="font-size:.8rem;color:var(--text-faint)">Built with Flask &amp; MySQL</div>
+    </div>
+  </div>
+</footer>
+{% endblock %}

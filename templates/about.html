@@ -1,0 +1,53 @@
+{% extends 'base.html' %}{% block title %}About Us{% endblock %}
+{% block body %}
+<nav class="navbar">
+  <a href="/" class="navbar__logo"><svg width="28" height="28" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="rgba(0,212,255,0.15)"/><path d="M7 16h4l2-6 3 12 2-9 2 3h5" stroke="#00d4ff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Glitch<span class="brand-accent">Fix</span></a>
+  <ul class="navbar__links"><li><a href="/">Home</a></li><li><a href="/faq">FAQ</a></li><li><a href="/contact">Contact</a></li></ul>
+  <div class="navbar__cta"><a href="/login" class="btn btn-ghost btn-sm">Login</a><a href="/register" class="btn btn-primary btn-sm">Get Started</a></div>
+</nav>
+<section style="padding:5rem 0;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(0,212,255,.05) 0%,transparent 70%)">
+  <div class="container--narrow" style="text-align:center">
+    <div class="section__label">Our Story</div>
+    <h1 style="font-family:var(--font-display);font-size:clamp(2rem,5vw,3.5rem);font-weight:700;color:#fff;margin-bottom:1rem">About <span class="brand-accent">GlitchFix</span></h1>
+    <p style="color:var(--text-muted);font-size:1.05rem;max-width:600px;margin-inline:auto;line-height:1.8">GlitchFix was born from a simple frustration — people shouldn't have to carry their PCs to a repair shop and wait days for a fix that takes an expert 20 minutes. We built a platform that connects users with certified engineers online, instantly.</p>
+  </div>
+</section>
+<section class="section">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.5rem">
+      {% for v in [
+        ('fa-bullseye','Our Mission','Make expert PC support accessible, fast, and affordable for everyone through secure remote assistance.'),
+        ('fa-eye','Our Vision','A world where no PC issue is too complex, and expert help is always one ticket away.'),
+        ('fa-heart','Our Values','Transparency, security, speed, and genuine care for every user we support.'),
+      ] %}
+      <div class="card" style="text-align:center;padding:2rem">
+        <i class="fa-solid {{v[0]}}" style="font-size:2.5rem;color:var(--accent);margin-bottom:1rem;display:block"></i>
+        <div style="font-family:var(--font-display);font-size:1.2rem;font-weight:700;color:#fff;margin-bottom:.5rem">{{v[1]}}</div>
+        <div style="color:var(--text-muted);font-size:.875rem;line-height:1.7">{{v[2]}}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+<section class="section" style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+  <div class="container">
+    <div class="section__label">The Team</div>
+    <h2 class="section__title">Our <span class="brand-accent">Engineers</span></h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1.5rem;margin-top:2rem">
+      {% for eng in [
+        ('Arjun Mehta','Windows & Driver Specialist','5+ years fixing BSODs, driver issues, and system crashes.'),
+        ('Priya Sharma','Networking & WiFi Expert','Specialist in connectivity, router configs, and VPN setups.'),
+        ('Rohan Das','Malware & Security Analyst','Certified in malware removal and PC security hardening.'),
+      ] %}
+      <div class="card" style="text-align:center">
+        <div style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--purple));display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:2rem;font-weight:700;color:#fff;margin:0 auto 1rem">{{eng[0][0]}}</div>
+        <div style="font-weight:700;color:#fff;margin-bottom:.25rem">{{eng[0]}}</div>
+        <div style="font-size:.78rem;color:var(--accent);margin-bottom:.5rem">{{eng[1]}}</div>
+        <div style="font-size:.82rem;color:var(--text-muted)">{{eng[2]}}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+<footer class="footer"><div class="container"><div class="footer__bottom"><div class="footer__copy">© 2025 GlitchFix. All rights reserved.</div><a href="/" style="color:var(--text-muted);font-size:.875rem">← Back to Home</a></div></div></footer>
+{% endblock %}

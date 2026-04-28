@@ -1,0 +1,39 @@
+{% extends 'base.html' %}{% block title %}Login{% endblock %}
+{% block body %}
+<div style="min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:2rem;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(0,212,255,.05) 0%,transparent 70%)">
+  {% include '_alerts.html' %}
+  <div class="auth-card">
+    <div style="text-align:center;margin-bottom:1.5rem">
+      <a href="/" style="font-family:var(--font-display);font-size:1.8rem;font-weight:700;color:#fff">Glitch<span class="brand-accent">Fix</span></a>
+    </div>
+    <div class="auth-card__title">Welcome back</div>
+    <div class="auth-card__sub">Sign in to your account</div>
+    <div class="role-tabs">
+      <div class="role-tab active" data-role="user"><i class="fa-solid fa-user"></i> User</div>
+      <div class="role-tab" data-role="engineer"><i class="fa-solid fa-wrench"></i> Engineer</div>
+      <div class="role-tab" data-role="admin"><i class="fa-solid fa-shield"></i> Admin</div>
+    </div>
+    <form method="POST">
+      <input type="hidden" name="role" id="role-input" value="user">
+      <div class="form-group">
+        <label class="form-label">Email Address</label>
+        <input type="email" name="email" class="form-control" placeholder="you@example.com" required autocomplete="email">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input type="password" name="password" class="form-control" placeholder="••••••••" required autocomplete="current-password">
+      </div>
+      <button type="submit" class="btn btn-primary w-full" style="justify-content:center;margin-top:.5rem"><i class="fa-solid fa-right-to-bracket"></i> Sign In</button>
+    </form>
+    <div class="divider-or">or</div>
+    <div style="text-align:center;font-size:.875rem;color:var(--text-muted)">No account? <a href="/register">Create one free</a></div>
+    <div style="margin-top:1.5rem;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-md);padding:1rem;font-size:.78rem;color:var(--text-muted)">
+      <div style="font-weight:700;color:#fff;margin-bottom:.5rem"><i class="fa-solid fa-circle-info" style="color:var(--accent)"></i> Demo Credentials</div>
+      <div>User: amit@example.com / User@123</div>
+      <div>Engineer: arjun@glitchfix.com / Engineer@123</div>
+      <div>Admin: admin@glitchfix.com / Admin@123</div>
+      <div style="margin-top:.5rem;color:var(--text-faint)">Run /seed first to load sample data.</div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,92 @@
+{% extends 'base.html' %}{% block title %}New Ticket{% endblock %}
+{% block body %}
+<div class="page-grid">
+  {% include '_sidebar_user.html' %}
+  <div class="main-content">
+    {% include '_alerts.html' %}
+    <div class="page-header">
+      <div><h1>Raise a Ticket</h1><p>Describe your PC issue and we'll assign an engineer.</p></div>
+    </div>
+    <div class="page-body">
+      <form method="POST" style="max-width:700px">
+        <div class="card mb-3">
+          <h3 style="font-size:1rem;color:#fff;margin-bottom:1.25rem;padding-bottom:.75rem;border-bottom:1px solid var(--border)">
+            <i class="fa-solid fa-circle-info" style="color:var(--accent)"></i> Issue Details
+          </h3>
+          <div class="form-group">
+            <label class="form-label">Ticket Title *</label>
+            <input type="text" name="title" class="form-control" placeholder="e.g. PC running very slow, Blue screen on startup" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Category</label>
+              <select name="category_id" class="form-control">
+                <option value="">Select category</option>
+                {% for c in categories %}<option value="{{c.id}}">{{c.name}}</option>{% endfor %}
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Priority</label>
+              <select name="priority" class="form-control">
+                <option value="Low">Low</option>
+                <option value="Medium" selected>Medium</option>
+                <option value="High">High</option>
+                <option value="Critical">Critical</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Device Type</label>
+              <select name="device_type" class="form-control">
+                <option>Laptop</option><option>Desktop</option><option>All-in-One</option><option>Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Operating System</label>
+              <select name="operating_system" class="form-control">
+                <option>Windows 11</option><option>Windows 10</option><option>Windows 8</option><option>Windows 7</option><option>Other</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Describe Your Problem *</label>
+            <textarea name="description" class="form-control" rows="5" placeholder="Describe the issue in detail — when it started, what you've tried, any error messages..." required></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Preferred Support Time</label>
+            <input type="text" name="preferred_time" class="form-control" placeholder="e.g. Weekdays 6–9 PM, Any time Saturday">
+          </div>
+        </div>
+        <div class="card mb-3" style="border-color:var(--border-accent)">
+          <h3 style="font-size:1rem;color:#fff;margin-bottom:.5rem">
+            <i class="fa-solid fa-desktop" style="color:var(--accent)"></i> RustDesk Remote Access
+          </h3>
+          <p style="font-size:.85rem;color:var(--text-muted);margin-bottom:1.25rem">
+            To allow our engineer to connect remotely, provide your RustDesk details below.
+            <a href="https://rustdesk.com" target="_blank">Download RustDesk</a>, set a permanent password in RustDesk Settings and enter it below!
+          </p>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">RustDesk ID</label>
+              <input type="text" name="rustdesk_id" class="form-control" placeholder="e.g. 123 456 789">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Password</label>
+              <input type="text" name="rustdesk_password" class="form-control" placeholder="Enter your RustDesk password!">
+            </div>
+          </div>
+          <div style="font-size:.8rem;color:var(--text-muted);background:var(--surface-3);border-radius:var(--radius-md);padding:.75rem 1rem;border:1px solid var(--border)">
+            <i class="fa-solid fa-shield-halved" style="color:var(--success)"></i>
+            <strong style="color:#fff">Security tip:</strong> Change or remove your RustDesk password after the session ends.
+          </div>
+        </div>
+        <div style="display:flex;gap:1rem">
+          <button type="submit" class="btn btn-primary btn-lg"><i class="fa-solid fa-paper-plane"></i> Submit Ticket</button>
+          <a href="/user/tickets" class="btn btn-ghost btn-lg">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

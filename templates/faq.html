@@ -1,0 +1,46 @@
+{% extends 'base.html' %}{% block title %}FAQ{% endblock %}
+{% block body %}
+<nav class="navbar">
+  <a href="/" class="navbar__logo"><svg width="28" height="28" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="rgba(0,212,255,0.15)"/><path d="M7 16h4l2-6 3 12 2-9 2 3h5" stroke="#00d4ff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Glitch<span class="brand-accent">Fix</span></a>
+  <ul class="navbar__links"><li><a href="/">Home</a></li><li><a href="/about">About</a></li><li><a href="/contact">Contact</a></li></ul>
+  <div class="navbar__cta"><a href="/login" class="btn btn-ghost btn-sm">Login</a><a href="/register" class="btn btn-primary btn-sm">Get Started</a></div>
+</nav>
+<section style="padding:5rem 0 2rem;text-align:center;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(0,212,255,.05) 0%,transparent 70%)">
+  <div class="container--narrow">
+    <div class="section__label">Help Center</div>
+    <h1 style="font-family:var(--font-display);font-size:clamp(2rem,5vw,3rem);font-weight:700;color:#fff;margin-bottom:.75rem">Frequently Asked <span class="brand-accent">Questions</span></h1>
+    <p style="color:var(--text-muted)">Everything you need to know about GlitchFix.</p>
+  </div>
+</section>
+<section class="section">
+  <div class="container--narrow">
+    {% set faqs = [
+      ("What is GlitchFix?", "GlitchFix is an online PC support platform that connects you with certified engineers who fix your computer issues remotely using RustDesk. No shop visits, no waiting."),
+      ("How does the remote session work?", "You install the free RustDesk client on your PC, note your RustDesk ID and set a temporary password, then add those details to your support ticket. Once an engineer is assigned, they use RustDesk to connect to your machine and fix the issue."),
+      ("Is my PC safe during a remote session?", "Yes. RustDesk uses end-to-end encrypted connections. You can see everything the engineer does on your screen, and you can disconnect at any time by closing RustDesk. Always set a temporary password and change it after the session."),
+      ("How long does it take to get an engineer assigned?", "Most tickets are reviewed and assigned within 30 to 60 minutes during working hours (Mon to Sat, 9AM to 9PM IST)."),
+      ("What kinds of PC issues can you fix?", "We handle slow PC performance, blue screens (BSOD), virus and malware removal, WiFi issues, driver problems, software installation errors, printer issues, system crashes, and more."),
+      ("How do I track my ticket status?", "Log in to your user dashboard. Your tickets page shows real-time status updates, engineer messages, and activity history for every ticket you have raised."),
+      ("Is GlitchFix free to use?", "Creating an account and raising tickets is free. Our engineers will contact you regarding pricing for the support session if applicable."),
+      ("Can I raise multiple tickets?", "Yes. You can raise as many tickets as needed for different issues. Each ticket is tracked independently."),
+      ("What if my issue is not resolved?", "You can reply to your ticket with follow-up information, and our admin team will review and escalate the issue to a senior engineer."),
+      ("How do I download RustDesk?", "Visit rustdesk.com and download the free client for Windows. It is a lightweight app that requires no installation. Just run it and note your ID."),
+    ] %}
+    {% for q, a in faqs %}
+    <details style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);margin-bottom:.75rem;overflow:hidden">
+      <summary style="padding:1.1rem 1.5rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:600;color:#fff;list-style:none;user-select:none">
+        {{q}} <i class="fa-solid fa-chevron-down" style="color:var(--accent);transition:transform .3s;font-size:.85rem;flex-shrink:0"></i>
+      </summary>
+      <div style="padding:0 1.5rem 1.25rem;color:var(--text-muted);line-height:1.8;font-size:.9rem">{{a}}</div>
+    </details>
+    {% endfor %}
+    <div class="card" style="text-align:center;margin-top:2rem;border-color:var(--border-accent)">
+      <div style="font-size:1.5rem;margin-bottom:.5rem">💬</div>
+      <div style="font-weight:600;color:#fff;margin-bottom:.4rem">Still have questions?</div>
+      <div style="color:var(--text-muted);font-size:.875rem;margin-bottom:1rem">Our support team is happy to help you out.</div>
+      <a href="/contact" class="btn btn-primary btn-sm">Contact Us</a>
+    </div>
+  </div>
+</section>
+<footer class="footer"><div class="container"><div class="footer__bottom"><div class="footer__copy">© 2025 GlitchFix. All rights reserved.</div><a href="/" style="color:var(--text-muted);font-size:.875rem">Back to Home</a></div></div></footer>
+{% endblock %}

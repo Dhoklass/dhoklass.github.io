@@ -1,0 +1,51 @@
+{% extends 'base.html' %}{% block title %}My Tickets{% endblock %}
+{% block body %}
+<div class="page-grid">
+  {% include '_sidebar_user.html' %}
+  <div class="main-content">
+    {% include '_alerts.html' %}
+    <div class="page-header">
+      <div><h1>My Tickets</h1><p>Track all your support requests.</p></div>
+      <a href="/user/create-ticket" class="btn btn-primary"><i class="fa-solid fa-plus"></i> New Ticket</a>
+    </div>
+    <div class="page-body">
+      <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.5rem">
+        <a href="/user/tickets" class="btn {% if not status_filter %}btn-primary{% else %}btn-ghost{% endif %} btn-sm">All</a>
+        {% for s in ['Open','Under Review','Assigned','In Progress','Waiting for User','Resolved','Closed'] %}
+        <a href="/user/tickets?status={{s}}" class="btn {% if status_filter==s %}btn-primary{% else %}btn-ghost{% endif %} btn-sm">{{s}}</a>
+        {% endfor %}
+      </div>
+      {% if tickets %}
+      <div style="display:flex;flex-direction:column;gap:1rem">
+        {% for t in tickets %}
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1rem">
+            <div>
+              <div style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;margin-bottom:.4rem">
+                <span class="table-ticket-ref">{{t.ticket_ref}}</span>
+                <span class="badge badge-{{t.priority|lower}}">{{t.priority}}</span>
+                <span class="badge badge-{{t.status|lower|replace(' ','')}}">{{t.status}}</span>
+              </div>
+              <div style="font-size:1rem;font-weight:600;color:#fff;margin-bottom:.25rem">{{t.title}}</div>
+              <div style="font-size:.82rem;color:var(--text-muted)">
+                <i class="fa-solid fa-tag" style="font-size:.7rem"></i> {{t.cat_name or 'Uncategorized'}}
+                &nbsp;·&nbsp; <i class="fa-solid fa-calendar" style="font-size:.7rem"></i> {{t.created_at.strftime('%d %b %Y') if t.created_at else ''}}
+              </div>
+            </div>
+            <a href="/user/ticket/{{t.id}}" class="btn btn-outline btn-sm">View Details</a>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="empty-state">
+        <i class="fa-solid fa-inbox"></i>
+        <h3>No tickets found</h3>
+        <p>{% if status_filter %}No "{{status_filter}}" tickets.{% else %}Raise your first ticket to get started.{% endif %}</p>
+        <a href="/user/create-ticket" class="btn btn-primary mt-2">Raise a Ticket</a>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,21 @@
+<aside class="sidebar">
+  <div class="sidebar__brand">
+    <div class="brand-title">Glitch<span class="brand-accent">Fix</span></div>
+    <div style="font-size:.7rem;color:var(--text-muted);margin-top:.2rem">Engineer Portal</div>
+  </div>
+  <nav class="sidebar__nav">
+    <div class="sidebar__section-label">Main</div>
+    <a href="/engineer/dashboard" class="sidebar__link"><i class="fa-solid fa-gauge"></i> Dashboard</a>
+    <div class="sidebar__section-label">Account</div>
+    <a href="/logout" class="sidebar__link"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+  </nav>
+  <div class="sidebar__footer">
+    <div class="sidebar__user">
+      <div class="sidebar__avatar" style="background:linear-gradient(135deg,#00e676,#00b0ff)">{{ session.user_name[0].upper() if session.user_name else 'E' }}</div>
+      <div class="sidebar__user-info">
+        <div class="sidebar__user-name">{{ session.user_name }}</div>
+        <div class="sidebar__user-role">Engineer</div>
+      </div>
+    </div>
+  </div>
+</aside>

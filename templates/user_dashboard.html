@@ -1,0 +1,66 @@
+{% extends 'base.html' %}{% block title %}Dashboard{% endblock %}
+{% block body %}
+<div class="page-grid">
+  {% include '_sidebar_user.html' %}
+  <div class="main-content">
+    {% include '_alerts.html' %}
+    <div class="page-header">
+      <div>
+        <h1>Hello, {{ session.user_name.split()[0] }} 👋</h1>
+        <p>Here's an overview of your support tickets.</p>
+      </div>
+      <a href="/user/create-ticket" class="btn btn-primary"><i class="fa-solid fa-plus"></i> New Ticket</a>
+    </div>
+    <div class="page-body">
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-icon cyan"><i class="fa-solid fa-ticket"></i></div><div><div class="stat-value">{{total}}</div><div class="stat-label">Total Tickets</div></div></div>
+        <div class="stat-card"><div class="stat-icon orange"><i class="fa-solid fa-folder-open"></i></div><div><div class="stat-value">{{open_t}}</div><div class="stat-label">Open</div></div></div>
+        <div class="stat-card"><div class="stat-icon purple"><i class="fa-solid fa-spinner"></i></div><div><div class="stat-value">{{in_prog}}</div><div class="stat-label">In Progress</div></div></div>
+        <div class="stat-card"><div class="stat-icon green"><i class="fa-solid fa-circle-check"></i></div><div><div class="stat-value">{{resolved}}</div><div class="stat-label">Resolved</div></div></div>
+      </div>
+      {% if notifs %}
+      <div class="card mb-3" style="border-color:var(--border-accent)">
+        <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1rem">
+          <i class="fa-solid fa-bell" style="color:var(--accent)"></i>
+          <span style="font-weight:600;color:#fff">Notifications</span>
+        </div>
+        {% for n in notifs %}
+        <div style="font-size:.875rem;color:var(--text-muted);padding:.5rem 0;border-bottom:1px solid var(--border)">
+          <i class="fa-solid fa-circle" style="font-size:.4rem;color:var(--accent);vertical-align:middle;margin-right:.5rem"></i>{{n.message}}
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+      <h3 style="font-size:1.05rem;color:#fff;margin-bottom:1rem">Recent Tickets</h3>
+      {% if recent %}
+      <div class="table-wrap">
+        <table class="table">
+          <thead><tr><th>Ref</th><th>Title</th><th>Category</th><th>Priority</th><th>Status</th><th>Updated</th><th></th></tr></thead>
+          <tbody>
+          {% for t in recent %}
+          <tr>
+            <td><span class="table-ticket-ref">{{t.ticket_ref}}</span></td>
+            <td style="max-width:220px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{t.title}}</td>
+            <td style="color:var(--text-muted);font-size:.82rem">{{t.cat_name or '—'}}</td>
+            <td><span class="badge badge-{{t.priority|lower}}">{{t.priority}}</span></td>
+            <td><span class="badge badge-{{t.status|lower|replace(' ','')}}">{{t.status}}</span></td>
+            <td style="color:var(--text-muted);font-size:.82rem">{{t.updated_at.strftime('%d %b') if t.updated_at else '—'}}</td>
+            <td><a href="/user/ticket/{{t.id}}" class="btn btn-ghost btn-sm">View</a></td>
+          </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div style="margin-top:1rem"><a href="/user/tickets" class="btn btn-outline btn-sm">View All Tickets →</a></div>
+      {% else %}
+      <div class="empty-state">
+        <i class="fa-solid fa-inbox"></i>
+        <h3>No tickets yet</h3>
+        <p>Raise your first support ticket to get started.</p>
+        <a href="/user/create-ticket" class="btn btn-primary mt-2">Raise a Ticket</a>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

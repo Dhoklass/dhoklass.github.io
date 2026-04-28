@@ -1,0 +1,68 @@
+{% extends 'base.html' %}{% block title %}Engineers{% endblock %}
+{% block body %}
+<div class="page-grid">
+  {% include '_sidebar_admin.html' %}
+  <div class="main-content">
+    {% include '_alerts.html' %}
+    <div class="page-header">
+      <div><h1>Manage Engineers</h1><p>Add, view, and manage support engineers.</p></div>
+    </div>
+    <div class="page-body">
+      <div class="card mb-3">
+        <h3 style="font-size:.95rem;color:#fff;margin-bottom:1.25rem"><i class="fa-solid fa-user-plus" style="color:var(--accent)"></i> Add New Engineer</h3>
+        <form method="POST">
+          <input type="hidden" name="action" value="add">
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Full Name *</label><input type="text" name="name" class="form-control" placeholder="Arjun Mehta" required></div>
+            <div class="form-group"><label class="form-label">Email *</label><input type="email" name="email" class="form-control" placeholder="arjun@glitchfix.com" required></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Password *</label><input type="password" name="password" class="form-control" placeholder="Min 6 characters" required></div>
+            <div class="form-group"><label class="form-label">Specialization</label><input type="text" name="specialization" class="form-control" placeholder="e.g. Networking & WiFi"></div>
+          </div>
+          <button type="submit" class="btn btn-primary btn-sm"><i class="fa-solid fa-plus"></i> Add Engineer</button>
+        </form>
+      </div>
+      <div class="table-wrap">
+        <table class="table">
+          <thead><tr><th>Name</th><th>Email</th><th>Specialization</th><th>Tickets</th><th>Status</th><th>Joined</th><th>Actions</th></tr></thead>
+          <tbody>
+          {% for e in engineers %}
+          <tr>
+            <td>
+              <div style="display:flex;align-items:center;gap:.75rem">
+                <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--success),#00b0ff);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:700;color:#fff;flex-shrink:0">{{e.name[0]}}</div>
+                <span style="font-weight:600;color:#fff">{{e.name}}</span>
+              </div>
+            </td>
+            <td style="color:var(--text-muted);font-size:.82rem">{{e.email}}</td>
+            <td style="color:var(--text-muted);font-size:.82rem">{{e.specialization or '—'}}</td>
+            <td><span class="badge badge-open">{{e.ticket_count}}</span></td>
+            <td>
+              {% if e.is_active %}<span class="badge badge-resolved">Active</span>
+              {% else %}<span class="badge badge-cancelled">Inactive</span>{% endif %}
+            </td>
+            <td style="color:var(--text-muted);font-size:.82rem">{{e.created_at.strftime('%d %b %Y') if e.created_at else '—'}}</td>
+            <td>
+              <div style="display:flex;gap:.4rem">
+                <form method="POST" style="display:inline">
+                  <input type="hidden" name="action" value="toggle">
+                  <input type="hidden" name="engineer_id" value="{{e.id}}">
+                  <button type="submit" class="btn btn-ghost btn-sm">{% if e.is_active %}Deactivate{% else %}Activate{% endif %}</button>
+                </form>
+                <form method="POST" style="display:inline" onsubmit="return confirm('Delete this engineer? This cannot be undone.')">
+                  <input type="hidden" name="action" value="delete">
+                  <input type="hidden" name="engineer_id" value="{{e.id}}">
+                  <button type="submit" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i></button>
+                </form>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

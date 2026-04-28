@@ -1,0 +1,43 @@
+{% extends 'base.html' %}{% block title %}My Profile{% endblock %}
+{% block body %}
+<div class="page-grid">
+  {% include '_sidebar_user.html' %}
+  <div class="main-content">
+    {% include '_alerts.html' %}
+    <div class="page-header">
+      <div><h1>My Profile</h1><p>Update your account information.</p></div>
+    </div>
+    <div class="page-body">
+      <div style="max-width:540px">
+        <div class="card mb-3" style="display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap">
+          <div style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--purple));display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:2rem;font-weight:700;color:#fff;flex-shrink:0">{{user.name[0].upper()}}</div>
+          <div>
+            <div style="font-family:var(--font-display);font-size:1.4rem;font-weight:700;color:#fff">{{user.name}}</div>
+            <div style="color:var(--text-muted);font-size:.875rem">{{user.email}}</div>
+            <div style="margin-top:.3rem"><span class="badge badge-open"><i class="fa-solid fa-user"></i> User Account</span></div>
+          </div>
+        </div>
+        <div class="card">
+          <h3 style="font-size:.95rem;color:#fff;margin-bottom:1.25rem">Edit Profile</h3>
+          <form method="POST">
+            <div class="form-group">
+              <label class="form-label">Full Name</label>
+              <input type="text" name="name" class="form-control" value="{{user.name}}" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email Address</label>
+              <input type="email" class="form-control" value="{{user.email}}" disabled style="opacity:.5;cursor:not-allowed">
+              <div class="form-hint">Email cannot be changed.</div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Phone Number</label>
+              <input type="text" name="phone" class="form-control" value="{{user.phone or ''}}">
+            </div>
+            <button type="submit" class="btn btn-primary btn-sm"><i class="fa-solid fa-floppy-disk"></i> Save Changes</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
